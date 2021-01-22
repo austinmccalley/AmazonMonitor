@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js')
 const { trim } = require('../common/util')
 const amazon = require('../common/Amazon')
-const {tld} = require('../config.json')
+const { tld } = require('../config.json')
 
 module.exports = {
   name: 'search',
@@ -26,9 +26,14 @@ module.exports.run = async (bot, guild, message, args) => {
     console.log(e)
   })
   let n = 1
+
+  if (!item || item === null) {
+    await message.channel.send('Couldn\'t find anything. Proxy could be broken.')
+  }
+
   item.forEach(r => {
     // Add an embed field for each item
-    embed.addField(`[${n}] ${trim(r.full_title, 70)}`, `${!r.ratings.length <= 1 ? r.ratings:'no ratings'} | ${r.price !== '' ? r.price:'none/not in stock'}`)
+    embed.addField(`[${n}] ${trim(r.full_title, 70)}`, `${!r.ratings.length <= 1 ? r.ratings : 'no ratings'} | ${r.price !== '' ? r.price : 'none/not in stock'}`)
     n++
   })
 
